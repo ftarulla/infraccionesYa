@@ -42,16 +42,17 @@ router.route(uriInfraccion + ':infraccion_id')
 
         if (infraccion) {
             res.json(infraccion);
+        } else {
+            // http://stackoverflow.com/questions/8393275/how-to-programmatically-send-a-404-response-with-express-node
+            res.status(404)
+               .send('Infracción inexistente.');
         }
 
-        // http://stackoverflow.com/questions/8393275/how-to-programmatically-send-a-404-response-with-express-node
-        res.status(404)
-           .send('Infracción inexistente.');
     });
 
 
 // Types
-var uriType = '/infracciones/tipoInfraccion/';
+var uriType = '/tiposInfraccion/';
 router.route(uriType)
     .get(function(req, res) {
         console.log("GET: " + uriType);
@@ -70,11 +71,12 @@ router.route(uriType + ':type_id')
 
         if (type) {
             res.json(type);
+        } else {
+            // http://stackoverflow.com/questions/8393275/how-to-programmatically-send-a-404-response-with-express-node
+            res.status(404)
+               .send('Tipo de infracción inexistente.');
         }
 
-        // http://stackoverflow.com/questions/8393275/how-to-programmatically-send-a-404-response-with-express-node
-        res.status(404)
-           .send('Tipo de infracción inexistente.');
     });
 
 
