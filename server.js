@@ -2,6 +2,8 @@ var express    = require('express');
 var bodyParser = require('body-parser');
 var router = express.Router();
 
+var infracciones = require("./infracciones.js");
+
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -18,6 +20,13 @@ router.get('/', function(req, res) {
 //         console.log(req.query);
 //         res.json(responses.random());
 //     });
+
+router.route('/infracciones/')
+    .get(function(req, res) {
+        console.log(req.query);
+        console.log(infracciones);
+        res.json(infracciones.list());
+    });
 
 var port = process.env.PORT || 3000;
 app.listen(port, function() {
