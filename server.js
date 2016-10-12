@@ -4,6 +4,7 @@ var router = express.Router();
 
 var infracciones = require("./infracciones.js");
 var types = require("./types.js");
+var acarreos = require("./acarreos.js");
 
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -12,7 +13,7 @@ app.use('/api', router); // routes will be /api/whatever
 //app.use('/', router);
 
 router.get('/', function(req, res) {
-    res.json({ message: 'Welcome to InfraccionesYa!' });
+    res.json({ message: 'Bienvenidos a InfraccionesYa!' });
 });
 
 // router.route('/api-search/by-url')
@@ -113,6 +114,33 @@ router.route(uriType + ':type_id')
             // http://stackoverflow.com/questions/8393275/how-to-programmatically-send-a-404-response-with-express-node
             res.status(404)
                .send('Tipo de infracción inexistente.');
+        }
+
+    });
+
+// Deposito
+var uriAcarreo = '/acarreo/';
+// router.route(uriDeposito)
+//     .get(function(req, res) {
+//         console.log("GET: " + uriType);
+//         res.json({});
+//     });
+router.route(uriAcarreo + ':infraccion')
+    .get(function(req, res) {
+        console.log("GET: " + uriType + ":infraccion");
+
+        var infraccion = req.params.infraccion;
+        console.log(infraccion);
+
+        var acarreo = acarreos.get(infraccion);
+        console.log(acarreo);
+
+        if (acarreo) {
+            res.json(acarreo);
+        } else {
+            // http://stackoverflow.com/questions/8393275/how-to-programmatically-send-a-404-response-with-express-node
+            res.status(404)
+               .send('No existe información de acarreo para la infracción dada.');
         }
 
     });
