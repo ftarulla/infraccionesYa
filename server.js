@@ -23,16 +23,43 @@ router.get('/', function(req, res) {
 //     });
 
 // Infracciones
-var uriInfraccion = '/infracciones/';
+var uriInfraccion = '/:patente/infracciones/';
 router.route(uriInfraccion)
     .get(function(req, res) {
         console.log("GET: " + uriInfraccion);
 
-        res.json(infracciones.list());
+        var patente = req.params.patente;
+        if(!patente) {
+            res.status(404)
+               .send('Patente inexistente.');
+
+            return;
+        }
+
+        console.log("Getting infracciones for: " + patente);
+
+        var response = {
+            patente: patente,
+            infracciones: infracciones.list(),
+            version: {
+                id: '0.0.1',
+                name: 'meteor',
+                lastupdate: Date.now()
+            }
+        }
+        res.json(response);
     });
 router.route(uriInfraccion + ':infraccion_id')
     .get(function(req, res) {
         console.log("GET: " + uriInfraccion + ':infraccion_id');
+
+        var patente = req.params.patente;
+        if(!patente) {
+            res.status(404)
+               .send('Patente inexistente.');
+
+            return;
+        }
 
         var id = req.params.infraccion_id;
         console.log(id);
@@ -40,13 +67,24 @@ router.route(uriInfraccion + ':infraccion_id')
         var infraccion = infracciones.get(id);
         console.log(infraccion);
 
-        if (infraccion) {
-            res.json(infraccion);
-        } else {
+        if (!infraccion) {
             // http://stackoverflow.com/questions/8393275/how-to-programmatically-send-a-404-response-with-express-node
             res.status(404)
                .send('Infracción inexistente.');
+
+            return;
         }
+
+        var response = {
+            patente: patente,
+            infraccion: infraccion,
+            version: {
+                id: '0.0.1',
+                name: 'meteor',
+                lastupdate: Date.now()
+            }
+        }
+        res.json(response);
 
     });
 
