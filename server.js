@@ -12,22 +12,50 @@ app.use(bodyParser.json());
 app.use('/api', router); // routes will be /api/whatever
 //app.use('/', router);
 
+
+var urlInfraccion = '/:patente/infracciones/';
+var urlType = '/tiposInfraccion/';
+var urlAcarreo = '/acarreo/';
+
+var help = {
+    welcome: 'Bienvenidos a Infracciones Ya!',
+    urls: {
+        'GET': {
+            '/api/:patente/infracciones/': {
+                "descripción": "Lista las infracciones pertenecientes a la patente :patente",
+                "ejemplo": "/api/ABC123/infracciones/"
+            },
+            '/api/:patente/infracciones/:infraccion_id': {
+                "descripción": "Obtiene la infracción con id :infraccion_id",
+                "ejemplo": "/api/ABC123/infraciones/42"
+            },
+            '/api/tiposInfraccion/': {
+                "descripción": "Lista los tipos de infracciones.",
+                "ejemplo": "/api/tiposInfraccion/"
+            },
+            '/api/tiposInfraccion/:type_id': {
+                "descripción": "Obtiene el tipo de infracción con id :type_id",
+                "ejemplo": "/api/tiposInfraccion/1"
+            },
+            '/api/acarreo/:infraccion': {
+                "descripción": "Obtiene la información de acarreo para la infracción con id :infraccion",
+                "ejemplo": "/api/acarreo/42"
+            }
+        }
+    }
+}
+
+
 router.get('/', function(req, res) {
-    res.json({ message: 'Bienvenidos a InfraccionesYa!' });
+    console.log("GET /");
+    res.json(help);
 });
 
-// router.route('/api-search/by-url')
-
-//     .get(function(req, res) {
-//         console.log(req.query);
-//         res.json(responses.random());
-//     });
 
 // Infracciones
-var uriInfraccion = '/:patente/infracciones/';
-router.route(uriInfraccion)
+router.route(urlInfraccion)
     .get(function(req, res) {
-        console.log("GET: " + uriInfraccion);
+        console.log("GET: " + urlInfraccion);
 
         var patente = req.params.patente;
         if(!patente) {
@@ -50,9 +78,9 @@ router.route(uriInfraccion)
         }
         res.json(response);
     });
-router.route(uriInfraccion + ':infraccion_id')
+router.route(urlInfraccion + ':infraccion_id')
     .get(function(req, res) {
-        console.log("GET: " + uriInfraccion + ':infraccion_id');
+        console.log("GET: " + urlInfraccion + ':infraccion_id');
 
         var patente = req.params.patente;
         if(!patente) {
@@ -91,16 +119,15 @@ router.route(uriInfraccion + ':infraccion_id')
 
 
 // Types
-var uriType = '/tiposInfraccion/';
-router.route(uriType)
+router.route(urlType)
     .get(function(req, res) {
-        console.log("GET: " + uriType);
+        console.log("GET: " + urlType);
 
         res.json(types.list());
     });
-router.route(uriType + ':type_id')
+router.route(urlType + ':type_id')
     .get(function(req, res) {
-        console.log("GET: " + uriType + ":type_id");
+        console.log("GET: " + urlType + ":type_id");
 
         var id = req.params.type_id;
         console.log(id);
@@ -118,16 +145,10 @@ router.route(uriType + ':type_id')
 
     });
 
-// Deposito
-var uriAcarreo = '/acarreo/';
-// router.route(uriDeposito)
-//     .get(function(req, res) {
-//         console.log("GET: " + uriType);
-//         res.json({});
-//     });
-router.route(uriAcarreo + ':infraccion')
+// Acarreo
+router.route(urlAcarreo + ':infraccion')
     .get(function(req, res) {
-        console.log("GET: " + uriType + ":infraccion");
+        console.log("GET: " + urlType + ":infraccion");
 
         var infraccion = req.params.infraccion;
         console.log(infraccion);
@@ -146,6 +167,7 @@ router.route(uriAcarreo + ':infraccion')
     });
 
 
+// Server up!
 var port = process.env.PORT || 3000;
 app.listen(port, function() {
   console.log('Server started at port ' + port);
