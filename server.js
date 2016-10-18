@@ -9,15 +9,16 @@ var acarreos = require("./acarreos.js");
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use('/api', router); // routes will be /api/whatever
-//app.use('/', router);
-
 //http://enable-cors.org/server_expressjs.html
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+app.use('/api', router); // routes will be /api/whatever
+//app.use('/', router);
+
 
 var urlInfraccion = '/:patente/infracciones/';
 var urlType = '/tiposInfraccion/';
