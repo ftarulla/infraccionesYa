@@ -20,10 +20,24 @@ var infracciones = [{
         direccionRegistrada: '',
         tipoInfraccion: 01,
         montoAPagar: '$200',
-        existeAcarreo: false,
+        existeAcarreo: true,
 
     }, {
-
+        id: 08,
+        fechaHoraRegistro: new Date("October 19, 2016 18:18:01").toUTCString(),
+        fechaHoraActualizacion: new Date("October 19, 2016 18:18:01").toUTCString(),
+        direccionRegistrada: '',
+        tipoInfraccion: 02,
+        montoAPagar: '$100000',
+        existeAcarreo: true,
+    }, {
+        id: 24,
+        fechaHoraRegistro: new Date("October 19, 2016 18:18:01").toUTCString(),
+        fechaHoraActualizacion: new Date("October 19, 2016 18:18:01").toUTCString(),
+        direccionRegistrada: '',
+        tipoInfraccion: 04,
+        montoAPagar: '$250',
+        existeAcarreo: false,
     }
 
 ]
