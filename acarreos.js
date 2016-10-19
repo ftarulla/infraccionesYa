@@ -8,6 +8,14 @@ var depositos = [{
         telefono: '555-0001',
         horarios: '09.00hs a 18.00hs'
 
+    }, {
+
+        id: 02,
+        nombre: 'No tenemos su auto! S.A.',
+        direccion: 'Av. NoTenemosDirección 100',
+        telefono: '555-0002',
+        horarios: '09.00hs a 09.15hs'
+
     }
 ]
 
@@ -22,7 +30,7 @@ var infos = [{
 
         infraccionId: 07,
         patente: 'BBB111',
-        depositoId: 01
+        depositoId: 02
 
     }
 ]
@@ -30,10 +38,16 @@ var infos = [{
 exports.get = function(infraccionId) {
     var info = infos.filter( acarreo => acarreo.infraccionId == infraccionId )[0];
 
+    var res = null;
+
     if(info) {
-        info.deposito = depositos.filter( deposito => deposito.id == info.depositoId)[0];
+        res = {
+            infraccionId: info.infraccionId,
+            patente: info.patente,
+            deposito: depositos.filter( deposito => deposito.id == info.depositoId)[0]
+        };
         //delete info.depositoId;
     }
 
-    return info;
+    return res;
 }
