@@ -32,7 +32,7 @@ exports.get = function(infraccionId) {
 
     if(info) {
         info.deposito = depositos.filter( deposito => deposito.id == info.depositoId)[0];
-        delete info.depositoId;
+        //delete info.depositoId;
     }
 
     return info;
