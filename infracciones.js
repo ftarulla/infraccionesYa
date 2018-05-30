@@ -39,7 +39,6 @@ var infracciones = [{
         montoAPagar: '$250',
         existeAcarreo: false,
     }
-
 ]
 
 exports.list = function() {
