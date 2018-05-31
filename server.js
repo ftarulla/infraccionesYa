@@ -90,7 +90,7 @@ router.route(urlInfraccion)
 
         var response = {
             patente: patente,
-            infracciones: infracciones.list(),
+            infracciones: infracciones.list(patente),
             version: version
         }
         res.json(response);
@@ -111,7 +111,7 @@ router.route(urlInfraccion + ':infraccion_id')
         var id = req.params.infraccion_id;
         console.log(id);
 
-        var infraccion = infracciones.get(id);
+        var infraccion = infracciones.get(patente, id);
         console.log(infraccion);
 
         if (!infraccion) {
@@ -209,8 +209,6 @@ router.route(urlDepositos)
 
         res.json(acarreos.list());
     });
-
-
 
 // Server up!
 var port = process.env.PORT || 3000;

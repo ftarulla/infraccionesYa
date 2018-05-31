@@ -40,10 +40,11 @@ var infracciones = [{
     }
 ]
 
-exports.list = function() {
-    return infracciones;
+exports.list = function(patente) {
+    return infracciones.filter(infraccion => infraccion.patente == patente);
 }
 
-exports.get = function(id) {
-    return infracciones.filter( infraccion => infraccion.id == id )[0];
+exports.get = function(patente, id) {
+    return infracciones.filter(infraccion => infraccion.id == id &&
+                                             infraccion.patente == patente)[0];
 }
