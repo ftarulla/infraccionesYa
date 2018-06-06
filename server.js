@@ -77,8 +77,8 @@ getHelp[addAPIBaseRoute(urlGruas + ':grua_id/posiciones')] = {
     "ejemplo": "/api/gruas/1/posiciones"};
 
 getHelp[addAPIBaseRoute(urlGruas + 'estados')] = {
-    "descripción": "Obtiene la grúa con id :grua_id",
-    "ejemplo": "/api/gruas/1"};
+    "descripción": "Lista los tipos de estados de las grúas.",
+    "ejemplo": "/api/gruas/estados"};
 
 var help = {
     welcome: 'Bienvenidos a Infracciones Ya!',
