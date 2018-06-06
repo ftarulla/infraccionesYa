@@ -5,6 +5,8 @@ var router = express.Router();
 var infracciones = require("./infracciones.js");
 var types = require("./types.js");
 var acarreos = require("./acarreos.js");
+var gruas = require("./gruas.js");
+//var estadosGrua = require("./estadosGrua.js");
 
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -30,41 +32,58 @@ var urlType = '/tiposInfraccion/';
 var urlAcarreoV1 = '/acarreo/';
 var urlAcarreo = '/:patente/acarreos/';
 var urlDepositos = '/depositos/';
+var urlGruas = '/gruas/';
+
+var addAPIBaseRoute = function(route) {
+    return '/api' + route;
+}
+
+var getHelp = {}
+getHelp[addAPIBaseRoute(urlInfraccion)] = {
+    "descripción": "Lista las infracciones pertenecientes a la patente :patente",
+    "ejemplo": "/api/ABC123/infracciones/",
+    "ejemplos disponibles": "[ABC123, AAA000, BBB111]" };
+
+getHelp[addAPIBaseRoute(urlInfraccion + ':infraccion_id')] = {
+    "descripción": "Obtiene la infracción con id :infraccion_id",
+    "ejemplo": "/api/ABC123/infraciones/42"};
+
+getHelp[addAPIBaseRoute(urlType)] = {
+    "descripción": "Lista los tipos de infracciones.",
+    "ejemplo": "/api/tiposInfraccion/"};
+
+getHelp[addAPIBaseRoute(urlType + ':type_id')] = {
+    "descripción": "Obtiene el tipo de infracción con id :type_id",
+    "ejemplo": "/api/tiposInfraccion/1"};
+
+getHelp[addAPIBaseRoute(urlDepositos)] = {
+    "descripción": "Lista los depósitos.",
+    "ejemplo": "/api/depositos/"};
+
+getHelp[addAPIBaseRoute(urlAcarreo + ':infraccion_id')] = {
+    "descripción": "Obtiene la información de acarreo para la infracción con id :infraccion_id",
+    "ejemplo": "/api/ABC123/acarreos/42"};
+
+getHelp[addAPIBaseRoute(urlGruas)] = {
+    "descripción": "Lista las grúas.",
+    "ejemplo": "/api/gruas/"};
+
+getHelp[addAPIBaseRoute(urlGruas + ':grua_id')] = {
+    "descripción": "Obtiene la grúa con id :grua_id",
+    "ejemplo": "/api/gruas/1"};
+
+getHelp[addAPIBaseRoute(urlGruas + ':grua_id/posiciones')] = {
+    "descripción": "Obtiene las posiciones de la grúa con id :grua_id",
+    "ejemplo": "/api/gruas/1/posiciones"};
+
+getHelp[addAPIBaseRoute(urlGruas + 'estados')] = {
+    "descripción": "Obtiene la grúa con id :grua_id",
+    "ejemplo": "/api/gruas/1"};
 
 var help = {
     welcome: 'Bienvenidos a Infracciones Ya!',
     urls: {
-        'GET': {
-            '/api/:patente/infracciones/': {
-                "descripción": "Lista las infracciones pertenecientes a la patente :patente",
-                "ejemplo": "/api/ABC123/infracciones/",
-                "ejemplos disponibles": "[ABC123, AAA000, BBB111]"
-            },
-            '/api/:patente/infracciones/:infraccion_id': {
-                "descripción": "Obtiene la infracción con id :infraccion_id",
-                "ejemplo": "/api/ABC123/infraciones/42"
-            },
-            '/api/tiposInfraccion/': {
-                "descripción": "Lista los tipos de infracciones.",
-                "ejemplo": "/api/tiposInfraccion/"
-            },
-            '/api/tiposInfraccion/:type_id': {
-                "descripción": "Obtiene el tipo de infracción con id :type_id",
-                "ejemplo": "/api/tiposInfraccion/1"
-            },
-            // '/api/acarreo/:infraccion': {
-            //     "descripción": "Obtiene la información de acarreo para la infracción con id :infraccion",
-            //     "ejemplo": "/api/acarreo/42"
-            // },
-            '/api/depositos/': {
-                "descripción": "Lista los depósitos.",
-                "ejemplo": "/api/depositos/"
-            },
-            '/api/:patente/acarreos/:infraccion_id': {
-                "descripción": "Obtiene la información de acarreo para la infracción con id :infraccion_id",
-                "ejemplo": "/api/ABC123/acarreos/42"
-            }
-        }
+        'GET': getHelp
     }
 }
 
@@ -210,10 +229,46 @@ router.route(urlDepositos)
         res.json(acarreos.list());
     });
 
+// Gruas
+router.route(urlGruas)
+    .get(function(req, res) {
+        console.log("GET: " + urlGruas);
+
+        res.json(gruas.list());
+    });
+
+router.route(urlGruas + 'estados')
+    .get(function(req, res) {
+        console.log("GET: " + urlGruas + 'estados');
+        res.json(gruas.estados.list());
+    });
+
+router.route(urlGruas + ':grua_id')
+    .get(function(req, res) {
+        console.log("GET: " + urlGruas + ':grua_id');
+
+        var id = req.params.grua_id;
+        console.log(id);
+
+        var grua = gruas.get(id);
+        console.log(grua);
+
+        if (!grua) {
+            // http://stackoverflow.com/questions/8393275/how-to-programmatically-send-a-404-response-with-express-node
+            res.status(404)
+               .send('Grúa inexistente.');
+            return;
+        }
+
+        var response = {
+            grua: grua,
+            version: version
+        }
+        res.json(response);
+    });
+
 // Server up!
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 5000;
 app.listen(port, function() {
   console.log('Server started at port ' + port);
 });
-
-//limitless-falls-59407
