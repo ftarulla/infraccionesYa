@@ -80,6 +80,10 @@ getHelp[addAPIBaseRoute(urlGruas + 'estados')] = {
     "descripción": "Lista los tipos de estados de las grúas.",
     "ejemplo": "/api/gruas/estados"};
 
+getHelp[addAPIBaseRoute(urlGruas + 'estados/:estado_id')] = {
+    "descripción": "Obtiene el estado de grúa con id :estado_id",
+    "ejemplo": "/api/gruas/estados/1"};
+
 var help = {
     welcome: 'Bienvenidos a Infracciones Ya!',
     urls: {
@@ -241,6 +245,28 @@ router.route(urlGruas + 'estados')
     .get(function(req, res) {
         console.log("GET: " + urlGruas + 'estados');
         res.json(gruas.estados.list());
+    });
+
+router.route(urlGruas + 'estados/:estado_id')
+    .get(function(req, res) {
+        console.log("GET: " + urlGruas + 'estados/:estado_id');
+        
+        var id = req.params.estado_id;
+        console.log(id);
+
+        var estado = gruas.estados.get(id);
+
+        if (!estado) {
+            res.status(404)
+               .send('Estado de grúa inexistente.');
+            return;
+        }
+
+        var response = {
+            estado: estado,
+            version: version
+        }
+        res.json(response);
     });
 
 router.route(urlGruas + ':grua_id')
