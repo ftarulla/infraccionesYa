@@ -6,7 +6,6 @@ var infracciones = require("./infracciones.js");
 var types = require("./types.js");
 var acarreos = require("./acarreos.js");
 var gruas = require("./gruas.js");
-//var estadosGrua = require("./estadosGrua.js");
 
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,9 +21,9 @@ app.use('/api', router); // routes will be /api/whatever
 //app.use('/', router);
 
 var version = {
-    id: '1.0.2',
-    name: 'shootingstar',
-    lastupdate: Date.now()
+  id: '1.0.2',
+  name: 'shootingstar',
+  lastupdate: Date.now()
 }
 
 var urlInfraccion = '/:patente/infracciones/';
@@ -35,65 +34,65 @@ var urlDepositos = '/depositos/';
 var urlGruas = '/gruas/';
 
 var addAPIBaseRoute = function(route) {
-    return '/api' + route;
+  return '/api' + route;
 }
 
 var getHelp = {}
 getHelp[addAPIBaseRoute(urlInfraccion)] = {
-    "descripción": "Lista las infracciones pertenecientes a la patente :patente",
-    "ejemplo": "/api/ABC123/infracciones/",
-    "ejemplos disponibles": "[ABC123, AAA000, BBB111]" };
+  "descripción": "Lista las infracciones pertenecientes a la patente :patente",
+  "ejemplo": "/api/ABC123/infracciones/",
+  "ejemplos disponibles": "[ABC123, AAA000, BBB111]" };
 
 getHelp[addAPIBaseRoute(urlInfraccion + ':infraccion_id')] = {
-    "descripción": "Obtiene la infracción con id :infraccion_id",
-    "ejemplo": "/api/ABC123/infraciones/42"};
+  "descripción": "Obtiene la infracción con id :infraccion_id",
+  "ejemplo": "/api/ABC123/infraciones/42"};
 
 getHelp[addAPIBaseRoute(urlType)] = {
-    "descripción": "Lista los tipos de infracciones.",
-    "ejemplo": "/api/tiposInfraccion/"};
+  "descripción": "Lista los tipos de infracciones.",
+  "ejemplo": "/api/tiposInfraccion/"};
 
 getHelp[addAPIBaseRoute(urlType + ':type_id')] = {
-    "descripción": "Obtiene el tipo de infracción con id :type_id",
-    "ejemplo": "/api/tiposInfraccion/1"};
+  "descripción": "Obtiene el tipo de infracción con id :type_id",
+  "ejemplo": "/api/tiposInfraccion/1"};
 
 getHelp[addAPIBaseRoute(urlDepositos)] = {
-    "descripción": "Lista los depósitos.",
-    "ejemplo": "/api/depositos/"};
+  "descripción": "Lista los depósitos.",
+  "ejemplo": "/api/depositos/"};
 
 getHelp[addAPIBaseRoute(urlAcarreo + ':infraccion_id')] = {
-    "descripción": "Obtiene la información de acarreo para la infracción con id :infraccion_id",
-    "ejemplo": "/api/ABC123/acarreos/42"};
+  "descripción": "Obtiene la información de acarreo para la infracción con id :infraccion_id",
+  "ejemplo": "/api/ABC123/acarreos/42"};
 
 getHelp[addAPIBaseRoute(urlGruas)] = {
-    "descripción": "Lista las grúas.",
-    "ejemplo": "/api/gruas/"};
+  "descripción": "Lista las grúas.",
+  "ejemplo": "/api/gruas/"};
 
 getHelp[addAPIBaseRoute(urlGruas + ':grua_id')] = {
-    "descripción": "Obtiene la grúa con id :grua_id",
-    "ejemplo": "/api/gruas/1"};
+  "descripción": "Obtiene la grúa con id :grua_id",
+  "ejemplo": "/api/gruas/1"};
 
 getHelp[addAPIBaseRoute(urlGruas + ':grua_id/posiciones')] = {
-    "descripción": "Obtiene las posiciones de la grúa con id :grua_id",
-    "ejemplo": "/api/gruas/1/posiciones"};
+  "descripción": "Obtiene las posiciones de la grúa con id :grua_id",
+  "ejemplo": "/api/gruas/1/posiciones"};
 
 getHelp[addAPIBaseRoute(urlGruas + 'estados')] = {
-    "descripción": "Lista los tipos de estados de las grúas.",
-    "ejemplo": "/api/gruas/estados"};
+  "descripción": "Lista los tipos de estados de las grúas.",
+  "ejemplo": "/api/gruas/estados"};
 
 getHelp[addAPIBaseRoute(urlGruas + 'estados/:estado_id')] = {
-    "descripción": "Obtiene el estado de grúa con id :estado_id",
-    "ejemplo": "/api/gruas/estados/1"};
+  "descripción": "Obtiene el estado de grúa con id :estado_id",
+  "ejemplo": "/api/gruas/estados/1"};
 
 var help = {
-    welcome: 'Bienvenidos a Infracciones Ya!',
-    urls: {
-        'GET': getHelp
-    }
+  welcome: 'Bienvenidos a Infracciones Ya!',
+  urls: {
+      'GET': getHelp
+  }
 }
 
 router.get('/', function(req, res) {
-    console.log("GET /");
-    res.json(help);
+  console.log("GET /");
+  res.json(help);
 });
 
 // Infracciones
